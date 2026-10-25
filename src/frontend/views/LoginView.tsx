@@ -618,15 +618,14 @@ export function LoginView({ initialMode = "login" }: { initialMode?: "login" | "
 
     // Success login
     setToastMessage("You're in! Taking you to your JobNex dashboard…");
-    if (triggerShotRef.current) {
-      triggerShotRef.current("success", reducedMotion ? 1800 : 4800, () => {
-        login(email.trim(), role);
-        router.push("/");
-      });
-    } else {
+    const doLoginRedirect = () => {
       login(email.trim(), role);
       router.push("/");
+    };
+    if (triggerShotRef.current) {
+      triggerShotRef.current("success", 750, doLoginRedirect);
     }
+    setTimeout(doLoginRedirect, 800);
   };
 
   const handleSignupSubmit = async (e: React.FormEvent) => {
@@ -659,36 +658,34 @@ export function LoginView({ initialMode = "login" }: { initialMode?: "login" | "
     }
 
     setIsSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1000));
+    await new Promise((r) => setTimeout(r, 600));
     setIsSubmitting(false);
 
     setToastMessage("Account created! Entering JobNex platform…");
-    if (triggerShotRef.current) {
-      triggerShotRef.current("success", reducedMotion ? 1800 : 4800, () => {
-        login(email.trim(), role);
-        router.push("/");
-      });
-    } else {
+    const doSignupRedirect = () => {
       login(email.trim(), role);
       router.push("/");
+    };
+    if (triggerShotRef.current) {
+      triggerShotRef.current("success", 750, doSignupRedirect);
     }
+    setTimeout(doSignupRedirect, 800);
   };
 
   const handleGoogleAuth = async () => {
     setIsGoogleSubmitting(true);
-    await new Promise((r) => setTimeout(r, 900));
+    await new Promise((r) => setTimeout(r, 600));
     setIsGoogleSubmitting(false);
 
     setToastMessage("Signed in via Google! Entering JobNex…");
-    if (triggerShotRef.current) {
-      triggerShotRef.current("success", reducedMotion ? 1800 : 4800, () => {
-        login(email || "google.user@jobnex.ai", role);
-        router.push("/");
-      });
-    } else {
+    const doGoogleRedirect = () => {
       login(email || "google.user@jobnex.ai", role);
       router.push("/");
+    };
+    if (triggerShotRef.current) {
+      triggerShotRef.current("success", 750, doGoogleRedirect);
     }
+    setTimeout(doGoogleRedirect, 800);
   };
 
   return (

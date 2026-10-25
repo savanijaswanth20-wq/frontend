@@ -912,21 +912,23 @@
         playSound("success");
         toast.style.display = "block";
         submitBtn.disabled = true;
-        submitBtn.textContent = "Signing in...";
+        submitBtn.textContent = "Redirecting...";
 
         if (window.JobNexAuth) {
           window.JobNexAuth.login({ name: email.split("@")[0] || "User", email: email, role: "JOB_SEEKER" });
         }
 
+        let navigated = false;
+        const navigateToNext = () => {
+          if (navigated) return;
+          navigated = true;
+          window.location.href = "dashboard.html";
+        };
+
         if (triggerShot) {
-          triggerShot("success", reducedMotion ? 1800 : 4500, () => {
-            window.location.href = "dashboard.html";
-          });
-        } else {
-          setTimeout(() => {
-            window.location.href = "dashboard.html";
-          }, 1500);
+          triggerShot("success", 750, navigateToNext);
         }
+        setTimeout(navigateToNext, 800);
       });
 
       document.getElementById("btn-google").addEventListener("click", () => {
@@ -936,15 +938,16 @@
         if (window.JobNexAuth) {
           window.JobNexAuth.login({ name: "Google User", email: "google.user@jobnex.ai", role: "JOB_SEEKER" });
         }
+        let navigated = false;
+        const navigateToNext = () => {
+          if (navigated) return;
+          navigated = true;
+          window.location.href = "dashboard.html";
+        };
         if (triggerShot) {
-          triggerShot("success", reducedMotion ? 1800 : 4500, () => {
-            window.location.href = "dashboard.html";
-          });
-        } else {
-          setTimeout(() => {
-            window.location.href = "dashboard.html";
-          }, 1500);
+          triggerShot("success", 750, navigateToNext);
         }
+        setTimeout(navigateToNext, 800);
       });
     });
   </script>

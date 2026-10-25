@@ -38,12 +38,25 @@ const Auth = {
     }
   },
 
-  login(email, role = "JOB_SEEKER") {
+  login(firstArg, role = "JOB_SEEKER") {
+    let email = "sandeep@jobnex.ai";
+    let name = "Sandeep Kumar";
+    let chosenRole = role;
+
+    if (typeof firstArg === "object" && firstArg !== null) {
+      email = firstArg.email || email;
+      name = firstArg.name || (typeof email === "string" && email.includes("@") ? email.split("@")[0] : "Sandeep Kumar");
+      chosenRole = firstArg.role || chosenRole;
+    } else if (typeof firstArg === "string") {
+      email = firstArg || email;
+      name = chosenRole === "RECRUITER" ? "Sarah Jenkins" : (email.includes("@") ? email.split("@")[0] : "Sandeep Kumar");
+    }
+
     const user = {
       ...DEFAULT_USER,
-      email: email || "sandeep@jobnex.ai",
-      name: role === "RECRUITER" ? "Sarah Jenkins" : (email.split("@")[0] || "Sandeep Kumar"),
-      role: role
+      email: email,
+      name: name,
+      role: chosenRole
     };
     this.setUser(user);
     if (typeof updateNavbarUser === "function") {
