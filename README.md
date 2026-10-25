@@ -1,6 +1,6 @@
-# JobNex — Plain Static Architecture
+# JobNex — 100% Plain Static Website
 
-JobNex is an AI-powered career and recruitment ecosystem built as a **pure static website**: HTML5, CSS3, and JavaScript only. No TypeScript, no React, no TanStack, and no build step.
+JobNex is an AI-powered career and recruitment ecosystem built as a **pure static frontend website**: HTML5, CSS3, and JavaScript only. No TypeScript, no React, no backend server, and no build step.
 
 ---
 
@@ -8,69 +8,54 @@ JobNex is an AI-powered career and recruitment ecosystem built as a **pure stati
 
 ```
 frontend/
-├── index.html            # Main Landing / Home page
-├── pages/                # All route pages
-│   ├── jobs.html         # Job search & directory with filters & application modal
-│   ├── courses.html      # JobNex Academy courses & certifications
-│   ├── resources.html    # Career guides, resume templates, salary insights
-│   ├── ai-assistant.html # Interactive AI career assistant chatbot
-│   ├── interview-prep.html # AI interview simulator with real-time feedback
-│   ├── skill-gap.html    # Skill gap diagnostics & course recommendations
-│   ├── auto-apply.html   # Automated application queue & rate limiter
-│   ├── cold-referral.html# AI cold referral outreach email drafter
-│   ├── dashboard.html    # ATS application tracking dashboard & timeline
-│   ├── resume-privacy.html# Resume parser & recruiter-blind privacy settings
-│   └── login.html        # Sign-in & sign-up cockpit with demo 1-click accounts
-├── components/           # Reusable HTML fragments
-│   ├── navbar.html       # Shared header navigation bar
-│   ├── footer.html       # Shared footer
-│   └── job-card.html     # Reusable job card template
+├── index.html                  # Main Landing / Home page
+├── pages/                      # All route pages
+│   ├── jobs.html               # Job search & directory with filters & application modal
+│   ├── courses.html            # JobNex Academy courses & certifications
+│   ├── resources.html          # Career guides, resume templates, salary insights
+│   ├── ai-assistant.html       # Interactive AI career assistant chatbot
+│   ├── interview-prep.html     # AI interview simulator with real-time feedback
+│   ├── skill-gap.html          # Skill gap diagnostics & course recommendations
+│   ├── auto-apply.html         # Automated application queue & rate limiter
+│   ├── cold-referral.html      # AI cold referral outreach email drafter
+│   ├── dashboard.html          # ATS application tracking dashboard & timeline
+│   ├── resume-privacy.html     # Resume parser & recruiter-blind privacy settings
+│   └── login.html              # Sign-in & sign-up cockpit with demo 1-click accounts
+├── components/                 # Reusable HTML fragments
+│   ├── navbar.html             # Shared header navigation bar
+│   ├── footer.html             # Shared footer
+│   └── job-card.html           # Reusable job card template
 ├── css/
-│   └── styles.css        # Vanilla design system & keyframe animations
-├── js/                   # Page-specific scripts & core modules
-│   ├── home.js           # Home page logic
-│   ├── jobs.js           # Jobs filtering & application modal logic
-│   ├── courses.js        # Academy courses logic
-│   ├── resources.js      # Resource center logic
-│   ├── ai-assistant.js   # AI Chatbot logic
-│   ├── interview-prep.js # Interview simulator logic
-│   ├── skill-gap.js      # Skill gap & slider logic
-│   ├── auto-apply.js     # Auto-apply batch runner
-│   ├── cold-referral.js  # Referral message composer
-│   ├── dashboard.js      # ATS table & slide-out timeline drawer
-│   ├── resume-privacy.js # Resume analysis & privacy toggles
-│   ├── login.js          # Authentication & demo account switcher
-│   ├── auth.js           # User state management & Supabase CDN client
-│   ├── nav.js            # Relative URL routing & active navigation
-│   └── utils.js          # HTML component loader, toasts, sound fx, starfield
+│   └── styles.css              # Vanilla design system & keyframe animations
+├── js/                         # Page-specific scripts & core modules
+│   ├── home.js                 # Home page logic
+│   ├── jobs.js                 # Jobs filtering & application modal logic
+│   ├── courses.js              # Academy courses logic
+│   ├── resources.js            # Resource center logic
+│   ├── ai-assistant.js         # AI Chatbot logic
+│   ├── interview-prep.js       # Interview simulator logic
+│   ├── skill-gap.js            # Skill gap & slider logic
+│   ├── auto-apply.js           # Auto-apply batch runner
+│   ├── cold-referral.js        # Referral message composer
+│   ├── dashboard.js            # ATS table & slide-out timeline drawer
+│   ├── resume-privacy.js       # Resume analysis & privacy toggles
+│   ├── login.js                # Authentication & demo account switcher
+│   ├── auth.js                 # User state management & Supabase CDN client
+│   ├── nav.js                  # Relative URL routing & active navigation
+│   └── utils.js                # HTML component loader, toasts, sound fx, starfield
 ├── data/
-│   └── mock-data.js      # Jobs, courses, questions, applications dataset
-└── assets/               # Brand logos, icons, robots.txt
-
-backend/                  # Plain Node.js API handlers & static server
-├── server.js             # Zero-dependency HTTP static & API server
-├── lovable-ai.server.js  # AI career assistant handler
-├── agent.functions.js    # Chat thread CRUD functions
-└── error-capture.js      # Out-of-band error monitoring
+│   └── mock-data.js            # Jobs, courses, questions, applications dataset
+└── assets/                     # Brand logos, icons, robots.txt
 ```
 
 ---
 
 ## How to Run
 
-### Option 1: Direct File / VS Code Live Server (Zero Installation)
+### Direct File / VS Code Live Server (Zero Installation)
 Simply double-click `frontend/index.html` (or root `index.html`) in your file explorer, or right-click `frontend/index.html` in VS Code and choose **"Open with Live Server"**.
 
-All assets, links, and components use relative paths and load with zero build step!
-
-### Option 2: Lightweight Node.js Server
-Run the built-in HTTP server using standard Node.js (no `npm install` needed):
-
-```bash
-node backend/server.js
-```
-
-Open your browser to `http://localhost:3000`.
+All assets, links, and components use relative paths and load with zero installation or build steps!
 
 ---
 
