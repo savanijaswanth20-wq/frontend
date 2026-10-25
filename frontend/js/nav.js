@@ -55,9 +55,7 @@ function initNav(activePageName) {
   const links = [
     { id: "nav-home", href: homePrefix + "index.html", key: "home" },
     { id: "nav-jobs", href: prefix + "jobs.html", key: "jobs" },
-    { id: "nav-courses", href: prefix + "courses.html", key: "courses" },
     { id: "nav-resources", href: prefix + "resources.html", key: "resources" },
-    { id: "nav-assistant", href: prefix + "ai-assistant.html", key: "ai-assistant" },
     { id: "nav-interview", href: prefix + "interview-prep.html", key: "interview-prep" },
     { id: "nav-skills", href: prefix + "skill-gap.html", key: "skill-gap" },
     { id: "nav-autoapply", href: prefix + "auto-apply.html", key: "auto-apply" },
