@@ -1011,7 +1011,7 @@
         const navigateToNext = () => {
           if (navigated) return;
           navigated = true;
-          window.location.href = "frontend/pages/dashboard.html";
+          window.location.href = "frontend/index.html";
         };
 
         if (triggerShot) {
@@ -1023,7 +1023,7 @@
       // Google Button
       document.getElementById("btn-google").addEventListener("click", () => {
         playSound("success");
-        toast.textContent = "Signed in via Google! Entering JobNex…";
+        toast.textContent = "Signed in via Google! Welcome to JobNex…";
         toast.style.display = "block";
 
         try {
@@ -1041,7 +1041,7 @@
         const navigateToNext = () => {
           if (navigated) return;
           navigated = true;
-          window.location.href = "frontend/pages/dashboard.html";
+          window.location.href = "frontend/index.html";
         };
 
         if (triggerShot) {

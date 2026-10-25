@@ -922,7 +922,7 @@
         const navigateToNext = () => {
           if (navigated) return;
           navigated = true;
-          window.location.href = "dashboard.html";
+          window.location.href = "../index.html";
         };
 
         if (triggerShot) {
@@ -933,7 +933,7 @@
 
       document.getElementById("btn-google").addEventListener("click", () => {
         playSound("success");
-        toast.textContent = "Signed in via Google! Entering JobNex…";
+        toast.textContent = "Signed in via Google! Welcome to JobNex…";
         toast.style.display = "block";
         if (window.JobNexAuth) {
           window.JobNexAuth.login({ name: "Google User", email: "google.user@jobnex.ai", role: "JOB_SEEKER" });
@@ -942,7 +942,7 @@
         const navigateToNext = () => {
           if (navigated) return;
           navigated = true;
-          window.location.href = "dashboard.html";
+          window.location.href = "../index.html";
         };
         if (triggerShot) {
           triggerShot("success", 750, navigateToNext);
