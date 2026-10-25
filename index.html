@@ -1,14 +1,1275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=frontend/index.html" />
-  <title>JobNex AI Ecosystem</title>
-  <script>
-    window.location.replace("frontend/index.html");
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="JobNex - Next-Gen AI Career and Hiring Portal. Log in or create an account for autonomous vector matching and blind resume privacy." />
+  <title>JobNex | Log In & Sign Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* CSS Custom Properties / Design Tokens */
+    :root {
+      --bg-dark: #070913;
+      --bg-surface: rgba(18, 22, 40, 0.72);
+      --bg-card: rgba(22, 28, 52, 0.65);
+      --border-glass: rgba(255, 255, 255, 0.12);
+      --border-focus: #8b8cf6;
+      --brand-primary: #6366f1;
+      --brand-light: #818cf8;
+      --brand-hover: #4f46e5;
+      --accent-rose: #f472b6;
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      --shadow-glow: 0 0 50px -10px rgba(99, 102, 241, 0.35);
+      --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Fullscreen Background Canvas */
+    #space-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Ambient Lighting Blobs */
+    .ambient-glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+    .ambient-1 {
+      width: 450px;
+      height: 450px;
+      left: -100px;
+      top: 10%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.45), transparent 70%);
+    }
+    .ambient-2 {
+      width: 500px;
+      height: 500px;
+      right: -100px;
+      bottom: 5%;
+      background: radial-gradient(circle, rgba(244, 114, 182, 0.28), transparent 70%);
+    }
+
+    /* Header Nav */
+    header {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-glass);
+      backdrop-filter: blur(12px);
+      background: rgba(7, 9, 19, 0.5);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+    .logo-symbol {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--brand-light), var(--accent-rose));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+    }
+    .brand-name {
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+    .brand-pill {
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-glass);
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-full);
+      color: var(--text-muted);
+      margin-left: 0.5rem;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .icon-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-glass);
+      color: var(--text-muted);
+      padding: 0.45rem 0.85rem;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .icon-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Main Container */
+    main {
+      position: relative;
+      z-index: 10;
+      flex: 1;
+      max-width: 1240px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    @media (max-width: 960px) {
+      main {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 1.5rem 1rem;
+      }
+      .hero-section {
+        display: none !important;
+      }
+    }
+
+    /* Hero Section (Left) */
+    .hero-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(99, 102, 241, 0.14);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--brand-light);
+      width: fit-content;
+    }
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, #a5b4fc, #ffffff, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      line-height: 1.6;
+    }
+
+    /* Interactive Showcase Cards */
+    .feature-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .feature-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-glass);
+      backdrop-filter: blur(16px);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(99, 102, 241, 0.4);
+      box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.5);
+    }
+    .feature-icon-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+    }
+    .badge-vector {
+      background: rgba(99, 102, 241, 0.2);
+      color: var(--brand-light);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+    }
+    .badge-shield {
+      background: rgba(244, 114, 182, 0.18);
+      color: var(--accent-rose);
+      border: 1px solid rgba(244, 114, 182, 0.3);
+    }
+    .feature-card h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+    .feature-card p {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.45;
+    }
+
+    /* Demo Quick Logins */
+    .quick-demo-box {
+      margin-top: 0.5rem;
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed var(--border-glass);
+    }
+    .quick-demo-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+    .quick-demo-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .demo-chip {
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      color: var(--brand-light);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .demo-chip:hover {
+      background: var(--brand-primary);
+      color: #fff;
+    }
+    .demo-chip.recruiter-chip {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(245, 158, 11, 0.25);
+      color: var(--accent-amber);
+    }
+    .demo-chip.recruiter-chip:hover {
+      background: var(--accent-amber);
+      color: #000;
+    }
+
+    /* Auth Card (Right) */
+    .auth-card-container {
+      display: flex;
+      justify-content: center;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      backdrop-filter: blur(24px) saturate(140%);
+      box-shadow: var(--shadow-glow), 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    /* Tabs (Login / Sign Up) */
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 4px;
+      margin-bottom: 1.75rem;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.55rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+    .tab-btn.active {
+      background: var(--brand-primary);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(99, 102, 241, 0.4);
+    }
+
+    .form-heading {
+      margin-bottom: 1.25rem;
+    }
+    .form-heading h2 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .form-heading p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Role Switcher */
+    .role-selector {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      padding: 4px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-sm);
+    }
+    .role-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.45rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .role-btn.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .input-wrapper {
+      position: relative;
+    }
+    .form-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.28);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-sm);
+      padding: 0.7rem 0.9rem;
+      font-size: 0.875rem;
+      color: var(--text-main);
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(139, 140, 246, 0.25);
+      background: rgba(0, 0, 0, 0.4);
+    }
+    .form-input::placeholder {
+      color: var(--text-dim);
+    }
+    .field-error {
+      font-size: 0.72rem;
+      color: #f87171;
+      font-weight: 500;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    /* Password Eye Button */
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .toggle-password:hover {
+      color: var(--text-main);
+    }
+
+    /* Row with Remember & Forgot */
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0.75rem 0 1.25rem 0;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .remember-label {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .custom-checkbox {
+      accent-color: var(--brand-primary);
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .forgot-link {
+      color: var(--brand-light);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .forgot-link:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    /* Action Buttons */
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-hover));
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 18px rgba(99, 102, 241, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: inherit;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(99, 102, 241, 0.55);
+      background: linear-gradient(135deg, var(--brand-light), var(--brand-primary));
+    }
+    .btn-primary:active {
+      transform: scale(0.99);
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 1.25rem 0;
+      color: var(--text-dim);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--border-glass);
+    }
+    .divider span {
+      padding: 0 0.75rem;
+    }
+
+    /* Google OAuth Button */
+    .btn-google {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-glass);
+      color: var(--text-main);
+      border-radius: var(--radius-sm);
+      padding: 0.7rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .btn-google:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Failure Banner */
+    .error-banner {
+      display: none;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      font-size: 0.78rem;
+      padding: 0.75rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1rem;
+    }
+
+    /* Toast Notification */
+    #toast-msg {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      opacity: 0;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      backdrop-filter: blur(16px);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.75rem 1.4rem;
+      border-radius: var(--radius-full);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      z-index: 100;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+    #toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Card Shake Animation */
+    @keyframes cardShake {
+      10%, 90% { transform: translateX(-3px); }
+      20%, 80% { transform: translateX(5px); }
+      30%, 50%, 70% { transform: translateX(-8px); }
+      40%, 60% { transform: translateX(8px); }
+    }
+    .shake {
+      animation: cardShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 10;
+      padding: 1.25rem 2rem;
+      border-top: 1px solid var(--border-glass);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      background: rgba(7, 9, 19, 0.5);
+      backdrop-filter: blur(12px);
+    }
+    .footer-links {
+      display: flex;
+      gap: 1.25rem;
+    }
+    .footer-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover {
+      color: var(--text-muted);
+    }
+  </style>
 </head>
-<body style="font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #0f172a; color: #fff;">
-  <p>Loading JobNex... If you are not redirected automatically, <a href="frontend/index.html" style="color: #818cf8;">click here to enter JobNex</a>.</p>
+<body>
+  <!-- Ambient background illumination -->
+  <div class="ambient-glow ambient-1" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-2" aria-hidden="true"></div>
+
+  <!-- Perspective 3D Stars Canvas -->
+  <canvas id="space-canvas" aria-hidden="true"></canvas>
+
+  <!-- Navigation Header -->
+  <header>
+    <a href="#" class="brand-logo" id="header-logo-link">
+      <div class="logo-symbol">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#070913" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
+        </svg>
+      </div>
+      <span class="brand-name">JobNex</span>
+      <span class="brand-pill">AI Career Cloud</span>
+    </a>
+
+    <div class="header-actions">
+      <button class="icon-btn" id="sound-toggle-btn" type="button" aria-label="Toggle Sound Effects">
+        <span id="sound-icon">🔊</span>
+        <span id="sound-label">Audio On</span>
+      </button>
+      <button class="icon-btn" id="motion-toggle-btn" type="button" aria-label="Toggle Motion">
+        <span id="motion-icon">✨</span>
+        <span id="motion-label">Full Motion</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main>
+    <!-- Left Hero & Live Interactive Badges -->
+    <section class="hero-section">
+      <div class="hero-badge">
+        <span>⚡</span>
+        <span>Autonomous Candidate & Recruiter Engine</span>
+      </div>
+
+      <h1 class="hero-title">
+        Land high-impact roles <span class="gradient-text">4x faster</span>.
+      </h1>
+
+      <p class="hero-subtitle">
+        Vector-scored job matching, blind candidate privacy shields, and automated referral generation designed for modern software engineers.
+      </p>
+
+      <!-- Live Feature Cards -->
+      <div class="feature-cards-grid">
+        <div class="feature-card">
+          <div class="feature-icon-badge badge-vector">🎯</div>
+          <h4>98% Match Scoring</h4>
+          <p>Embeddings match your code strengths directly against engineering hiring rubrics.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-badge badge-shield">🛡️</div>
+          <h4>Blind Privacy Shield</h4>
+          <p>Mask employer, phone, and contact details until both parties agree to interview.</p>
+        </div>
+      </div>
+
+      <!-- Quick Demo Logins Box -->
+      <div class="quick-demo-box">
+        <span class="quick-demo-label">⚡ Click to pre-fill verified demo personas:</span>
+        <div class="quick-demo-buttons">
+          <button type="button" class="demo-chip" id="demo-seeker-btn">👤 Job Seeker (Sandeep)</button>
+          <button type="button" class="demo-chip recruiter-chip" id="demo-recruiter-btn">💼 Recruiter (Sarah)</button>
+          <button type="button" class="demo-chip" id="demo-error-btn" style="background: rgba(239,68,68,0.15); color: #fca5a5; border-color: rgba(239,68,68,0.3)">⚠️ Test Error Shake</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Login / Signup Card -->
+    <section class="auth-card-container">
+      <div class="auth-card" id="auth-card">
+        <!-- Auth Tabs -->
+        <div class="auth-tabs" role="tablist">
+          <button type="button" class="tab-btn active" id="tab-login" role="tab" aria-selected="true">Log In</button>
+          <button type="button" class="tab-btn" id="tab-signup" role="tab" aria-selected="false">Sign Up</button>
+        </div>
+
+        <!-- Heading -->
+        <div class="form-heading">
+          <h2 id="form-title">Welcome back</h2>
+          <p id="form-desc">Enter your credentials or choose a 1-click demo persona.</p>
+        </div>
+
+        <!-- Role Selector (Visible only in Sign Up mode) -->
+        <div class="role-selector" id="role-selector">
+          <button type="button" class="role-btn active" id="role-seeker-btn">Job Seeker</button>
+          <button type="button" class="role-btn" id="role-recruiter-btn">Recruiter</button>
+        </div>
+
+        <!-- Failure Banner -->
+        <div class="error-banner" id="error-banner" role="alert">
+          <strong>Authentication error:</strong> <span id="error-banner-text">Invalid email or password.</span>
+        </div>
+
+        <!-- Form -->
+        <form id="auth-form" novalidate>
+          <!-- Full Name (Sign Up only) -->
+          <div class="form-group" id="group-name" style="display: none;">
+            <label class="form-label" for="input-name">Full Name</label>
+            <div class="input-wrapper">
+              <input type="text" id="input-name" class="form-input" placeholder="Sandeep Kumar" />
+            </div>
+            <div class="field-error" id="error-name">Full name must be at least 2 characters.</div>
+          </div>
+
+          <!-- Phone (Sign Up only) -->
+          <div class="form-group" id="group-phone" style="display: none;">
+            <label class="form-label" for="input-phone">Phone Number (optional)</label>
+            <div class="input-wrapper">
+              <input type="tel" id="input-phone" class="form-input" placeholder="+91 98765 43210" />
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group" id="group-email">
+            <label class="form-label" for="input-email">Email Address</label>
+            <div class="input-wrapper">
+              <input type="email" id="input-email" class="form-input" placeholder="name@example.com" value="sandeep@jobnex.ai" required />
+            </div>
+            <div class="field-error" id="error-email">Please enter a valid email address.</div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group" id="group-password">
+            <label class="form-label" for="input-password">Password</label>
+            <div class="input-wrapper">
+              <input type="password" id="input-password" class="form-input" placeholder="••••••••" value="password123" required />
+              <button type="button" class="toggle-password" id="toggle-pw-btn" aria-label="Show password">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <div class="field-error" id="error-password">Password must be at least 8 characters.</div>
+          </div>
+
+          <!-- Confirm Password (Sign Up only) -->
+          <div class="form-group" id="group-confirm" style="display: none;">
+            <label class="form-label" for="input-confirm">Confirm Password</label>
+            <div class="input-wrapper">
+              <input type="password" id="input-confirm" class="form-input" placeholder="••••••••" />
+              <button type="button" class="toggle-password" id="toggle-confirm-btn" aria-label="Show confirm password">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <div class="field-error" id="error-confirm">Passwords do not match.</div>
+          </div>
+
+          <!-- Remember me & Forgot Password (Login only) -->
+          <div class="form-options" id="login-options">
+            <label class="remember-label" for="remember-me">
+              <input type="checkbox" id="remember-me" class="custom-checkbox" checked />
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="forgot-link" id="forgot-password-link">Forgot password?</a>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn-primary" id="submit-btn">
+            <span id="submit-btn-text">Sign In to JobNex</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+
+          <!-- Divider -->
+          <div class="divider">
+            <span>or continue with</span>
+          </div>
+
+          <!-- Google OAuth Button -->
+          <button type="button" class="btn-google" id="google-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24">
+              <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/>
+              <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.6h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.9z"/>
+              <path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3s.1-1.6.4-2.3L1.9 7.3C.7 9.7 0 10.8 0 12.5s.7 2.8 1.9 5.2l3.7-2.9z"/>
+              <path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2-6.4-4.8L1.9 17.4C3.7 21.1 7.5 24 12 24z"/>
+            </svg>
+            <span>Continue with Google</span>
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Global Toast Feedback -->
+  <aside id="toast-msg" role="status" aria-live="polite">
+    <span style="color: #34d399; font-size: 1.1rem;">✓</span>
+    <span id="toast-text">Signed in successfully!</span>
+  </aside>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 JobNex AI Inc. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Security & Compliance</a>
+    </div>
+  </footer>
+
+  <!-- Pure Vanilla JavaScript -->
+  <script>
+    (function () {
+      // Audio feedback synthesizer
+      let soundEnabled = true;
+      let motionEnabled = true;
+
+      function playSound(type) {
+        if (!soundEnabled || !window.AudioContext) return;
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          if (type === 'success') {
+            osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(783.99, ctx.currentTime + 0.12);
+            gain.gain.setValueAtTime(0.08, ctx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 0.22);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.22);
+          } else if (type === 'error') {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(220, ctx.currentTime);
+            osc.frequency.linearRampToValueAtTime(130, ctx.currentTime + 0.2);
+            gain.gain.setValueAtTime(0.1, ctx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 0.22);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.22);
+          } else {
+            osc.frequency.setValueAtTime(440, ctx.currentTime);
+            gain.gain.setValueAtTime(0.03, ctx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.08);
+          }
+        } catch (e) {}
+      }
+
+      // Toast notification helper
+      const toastEl = document.getElementById('toast-msg');
+      const toastText = document.getElementById('toast-text');
+      let toastTimeout;
+
+      function showToast(message) {
+        toastText.textContent = message;
+        toastEl.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+          toastEl.classList.remove('show');
+        }, 3200);
+      }
+
+      // State
+      let currentMode = 'login'; // 'login' | 'signup'
+      let currentRole = 'JOB_SEEKER'; // 'JOB_SEEKER' | 'RECRUITER'
+
+      // DOM Elements
+      const tabLogin = document.getElementById('tab-login');
+      const tabSignup = document.getElementById('tab-signup');
+      const formTitle = document.getElementById('form-title');
+      const formDesc = document.getElementById('form-desc');
+      const roleSelector = document.getElementById('role-selector');
+      const roleSeekerBtn = document.getElementById('role-seeker-btn');
+      const roleRecruiterBtn = document.getElementById('role-recruiter-btn');
+      const groupName = document.getElementById('group-name');
+      const groupPhone = document.getElementById('group-phone');
+      const groupConfirm = document.getElementById('group-confirm');
+      const loginOptions = document.getElementById('login-options');
+      const submitBtnText = document.getElementById('submit-btn-text');
+      const authForm = document.getElementById('auth-form');
+      const authCard = document.getElementById('auth-card');
+      const errorBanner = document.getElementById('error-banner');
+      const errorBannerText = document.getElementById('error-banner-text');
+
+      const inputEmail = document.getElementById('input-email');
+      const inputPassword = document.getElementById('input-password');
+      const inputName = document.getElementById('input-name');
+      const inputConfirm = document.getElementById('input-confirm');
+
+      const errorEmail = document.getElementById('error-email');
+      const errorPassword = document.getElementById('error-password');
+      const errorName = document.getElementById('error-name');
+      const errorConfirm = document.getElementById('error-confirm');
+
+      // Password visibility toggles
+      const togglePwBtn = document.getElementById('toggle-pw-btn');
+      togglePwBtn.addEventListener('click', () => {
+        const isPw = inputPassword.type === 'password';
+        inputPassword.type = isPw ? 'text' : 'password';
+        playSound('click');
+      });
+
+      const toggleConfirmBtn = document.getElementById('toggle-confirm-btn');
+      toggleConfirmBtn.addEventListener('click', () => {
+        const isPw = inputConfirm.type === 'password';
+        inputConfirm.type = isPw ? 'text' : 'password';
+        playSound('click');
+      });
+
+      // Accessibility buttons
+      const soundBtn = document.getElementById('sound-toggle-btn');
+      const soundLabel = document.getElementById('sound-label');
+      const soundIcon = document.getElementById('sound-icon');
+      soundBtn.addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        soundLabel.textContent = soundEnabled ? 'Audio On' : 'Audio Muted';
+        soundIcon.textContent = soundEnabled ? '🔊' : '🔇';
+        if (soundEnabled) playSound('click');
+      });
+
+      const motionBtn = document.getElementById('motion-toggle-btn');
+      const motionLabel = document.getElementById('motion-label');
+      motionBtn.addEventListener('click', () => {
+        motionEnabled = !motionEnabled;
+        motionLabel.textContent = motionEnabled ? 'Full Motion' : 'Reduced Motion';
+        playSound('click');
+      });
+
+      // Switch mode function
+      function setMode(mode) {
+        currentMode = mode;
+        clearErrors();
+        playSound('click');
+
+        if (mode === 'login') {
+          tabLogin.classList.add('active');
+          tabSignup.classList.remove('active');
+          tabLogin.setAttribute('aria-selected', 'true');
+          tabSignup.setAttribute('aria-selected', 'false');
+
+          formTitle.textContent = 'Welcome back';
+          formDesc.textContent = 'Enter your credentials or choose a 1-click demo persona.';
+          roleSelector.style.display = 'none';
+          groupName.style.display = 'none';
+          groupPhone.style.display = 'none';
+          groupConfirm.style.display = 'none';
+          loginOptions.style.display = 'flex';
+          submitBtnText.textContent = 'Sign In to JobNex';
+        } else {
+          tabSignup.classList.add('active');
+          tabLogin.classList.remove('active');
+          tabSignup.setAttribute('aria-selected', 'true');
+          tabLogin.setAttribute('aria-selected', 'false');
+
+          formTitle.textContent = 'Create your account';
+          formDesc.textContent = 'Start discovering verified AI jobs and vector matching.';
+          roleSelector.style.display = 'grid';
+          groupName.style.display = 'block';
+          groupPhone.style.display = 'block';
+          groupConfirm.style.display = 'block';
+          loginOptions.style.display = 'none';
+          submitBtnText.textContent = 'Create JobNex Account';
+        }
+      }
+
+      tabLogin.addEventListener('click', () => setMode('login'));
+      tabSignup.addEventListener('click', () => setMode('signup'));
+
+      // Role selection
+      roleSeekerBtn.addEventListener('click', () => {
+        currentRole = 'JOB_SEEKER';
+        roleSeekerBtn.classList.add('active');
+        roleRecruiterBtn.classList.remove('active');
+        playSound('click');
+      });
+
+      roleRecruiterBtn.addEventListener('click', () => {
+        currentRole = 'RECRUITER';
+        roleRecruiterBtn.classList.add('active');
+        roleSeekerBtn.classList.remove('active');
+        playSound('click');
+      });
+
+      // Clear errors
+      function clearErrors() {
+        errorBanner.style.display = 'none';
+        errorEmail.style.display = 'none';
+        errorPassword.style.display = 'none';
+        errorName.style.display = 'none';
+        errorConfirm.style.display = 'none';
+      }
+
+      function triggerShake() {
+        playSound('error');
+        if (motionEnabled) {
+          authCard.classList.remove('shake');
+          void authCard.offsetWidth; // re-flow
+          authCard.classList.add('shake');
+          setTimeout(() => authCard.classList.remove('shake'), 600);
+        }
+      }
+
+      // Quick Demo Auto-fills
+      document.getElementById('demo-seeker-btn').addEventListener('click', () => {
+        setMode('login');
+        inputEmail.value = 'sandeep@jobnex.ai';
+        inputPassword.value = 'password123';
+        currentRole = 'JOB_SEEKER';
+        playSound('success');
+        showToast('Pre-filled Job Seeker credentials (Sandeep)');
+      });
+
+      document.getElementById('demo-recruiter-btn').addEventListener('click', () => {
+        setMode('login');
+        inputEmail.value = 'recruiter@stripe.com';
+        inputPassword.value = 'password123';
+        currentRole = 'RECRUITER';
+        playSound('success');
+        showToast('Pre-filled Recruiter credentials (Sarah)');
+      });
+
+      document.getElementById('demo-error-btn').addEventListener('click', () => {
+        setMode('login');
+        inputPassword.value = 'wrong-password';
+        errorBanner.style.display = 'block';
+        errorBannerText.textContent = 'Incorrect password! Check both and try again.';
+        triggerShake();
+      });
+
+      document.getElementById('forgot-password-link').addEventListener('click', (e) => {
+        e.preventDefault();
+        playSound('click');
+        showToast('Password reset instructions dispatched to ' + (inputEmail.value || 'your email'));
+      });
+
+      document.getElementById('google-btn').addEventListener('click', () => {
+        playSound('click');
+        showToast('Connecting with Google OAuth…');
+        setTimeout(() => {
+          playSound('success');
+          showToast('Signed in via Google! Welcome to JobNex.');
+        }, 1200);
+      });
+
+      // Form validation & submission
+      authForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        clearErrors();
+        let hasError = false;
+
+        const emailVal = inputEmail.value.trim();
+        const pwVal = inputPassword.value;
+
+        if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+          errorEmail.style.display = 'block';
+          hasError = true;
+        }
+
+        if (currentMode === 'login') {
+          if (!pwVal) {
+            errorPassword.textContent = 'Please enter your password.';
+            errorPassword.style.display = 'block';
+            hasError = true;
+          }
+        } else {
+          // Signup checks
+          const nameVal = inputName.value.trim();
+          if (nameVal.length < 2) {
+            errorName.style.display = 'block';
+            hasError = true;
+          }
+          if (pwVal.length < 8) {
+            errorPassword.textContent = 'Password must be at least 8 characters.';
+            errorPassword.style.display = 'block';
+            hasError = true;
+          }
+          if (inputConfirm.value !== pwVal) {
+            errorConfirm.style.display = 'block';
+            hasError = true;
+          }
+        }
+
+        if (hasError) {
+          triggerShake();
+          return;
+        }
+
+        if (pwVal === 'wrong-password') {
+          errorBanner.style.display = 'block';
+          errorBannerText.textContent = 'Incorrect email or password. Check both and try again.';
+          triggerShake();
+          return;
+        }
+
+        // Success Flow
+        const originalText = submitBtnText.textContent;
+        submitBtnText.textContent = currentMode === 'login' ? 'Signing in…' : 'Creating account…';
+        playSound('click');
+
+        setTimeout(() => {
+          submitBtnText.textContent = originalText;
+          playSound('success');
+          showToast(currentMode === 'login' 
+            ? 'Authenticated as ' + (currentRole === 'JOB_SEEKER' ? 'Job Seeker' : 'Recruiter') + '! Entering workspace…'
+            : 'Account created! Welcome to JobNex AI.'
+          );
+        }, 850);
+      });
+
+      // ----------------------------------------------------
+      // Perspective Starfield Canvas (Pure Canvas 2D, zero WebGL)
+      // ----------------------------------------------------
+      const canvas = document.getElementById('space-canvas');
+      const ctx = canvas.getContext('2d');
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      const stars = [];
+      const starCount = 75;
+      const starColors = ['rgba(165,180,252,0.9)', 'rgba(244,114,182,0.85)', 'rgba(255,255,255,0.95)', 'rgba(56,189,248,0.85)'];
+
+      for (let i = 0; i < starCount; i++) {
+        stars.push({
+          x: (Math.random() - 0.5) * width * 1.8,
+          y: (Math.random() - 0.5) * height * 1.6,
+          z: Math.random() * 800 + 40,
+          radius: Math.random() * 1.6 + 0.8,
+          color: starColors[Math.floor(Math.random() * starColors.length)]
+        });
+      }
+
+      let mouseX = 0, mouseY = 0, targetMouseX = 0, targetMouseY = 0;
+      window.addEventListener('mousemove', (e) => {
+        targetMouseX = (e.clientX - width / 2) * 0.08;
+        targetMouseY = (e.clientY - height / 2) * 0.08;
+      });
+
+      function renderCanvas() {
+        ctx.clearRect(0, 0, width, height);
+
+        if (motionEnabled) {
+          mouseX += (targetMouseX - mouseX) * 0.05;
+          mouseY += (targetMouseY - mouseY) * 0.05;
+        }
+
+        const cx = width / 2 + mouseX;
+        const cy = height / 2 + mouseY;
+        const fov = 350;
+        const speed = motionEnabled ? 0.45 : 0;
+
+        const projected = [];
+
+        for (let i = 0; i < stars.length; i++) {
+          const star = stars[i];
+          star.z -= speed;
+          if (star.z <= 10) {
+            star.z = 800;
+            star.x = (Math.random() - 0.5) * width * 1.8;
+            star.y = (Math.random() - 0.5) * height * 1.6;
+          }
+
+          const scale = fov / (fov + star.z);
+          const px = cx + star.x * scale;
+          const py = cy + star.y * scale;
+
+          if (px >= 0 && px <= width && py >= 0 && py <= height) {
+            const r = Math.max(star.radius * scale * 1.5, 0.6);
+            projected.push({ x: px, y: py, z: star.z });
+
+            ctx.beginPath();
+            ctx.arc(px, py, r, 0, Math.PI * 2);
+            ctx.fillStyle = star.color;
+            ctx.shadowBlur = r * 5;
+            ctx.shadowColor = star.color;
+            ctx.fill();
+          }
+        }
+
+        // Draw subtle neural constellation filaments between close stars
+        ctx.shadowBlur = 0;
+        for (let i = 0; i < projected.length; i++) {
+          for (let j = i + 1; j < projected.length; j++) {
+            const dx = projected[i].x - projected[j].x;
+            const dy = projected[i].y - projected[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 90) {
+              const alpha = (1 - dist / 90) * 0.18;
+              ctx.beginPath();
+              ctx.moveTo(projected[i].x, projected[i].y);
+              ctx.lineTo(projected[j].x, projected[j].y);
+              ctx.strokeStyle = `rgba(165, 180, 252, ${alpha})`;
+              ctx.lineWidth = 0.6;
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(renderCanvas);
+      }
+
+      renderCanvas();
+    })();
+  </script>
 </body>
 </html>
