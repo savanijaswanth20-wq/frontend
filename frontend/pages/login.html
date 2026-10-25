@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In & Sign Up | JobNex AI</title>
+  <meta name="description" content="Access your JobNex AI career cockpit, manage job applications, and prepare for interviews.">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f5f6fc',
+              100: '#eaebf6',
+              200: '#d5d7ed',
+              300: '#b2b6de',
+              400: '#8a8ec9',
+              500: '#646ca6',
+              600: '#52588f',
+              700: '#434776',
+              800: '#383b61',
+              900: '#313451',
+              950: '#1d1e30',
+            },
+            accent: {
+              pink: '#ebabbb',
+              violet: '#7c3aed',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            display: ['"Space Grotesk"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Supabase CDN Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-slate-950 text-white font-sans min-h-screen relative overflow-x-hidden flex flex-col justify-between">
+  <!-- Interactive Starfield Canvas Background -->
+  <canvas id="starfield-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+  <!-- Glowing Gyroscope & Horizon Backdrop -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-brand-600/20 blur-[120px]"></div>
+    <div class="absolute top-1/3 -right-20 w-[400px] h-[400px] rounded-full bg-accent-pink/15 blur-[100px]"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent"></div>
+  </div>
+
+  <!-- Top Minimal Header -->
+  <header class="relative z-10 p-6 flex items-center justify-between max-w-7xl mx-auto w-full">
+    <a href="../index.html" class="flex items-center gap-2.5 group">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-accent-pink flex items-center justify-center text-white font-display font-bold text-xl shadow-lg shadow-brand-500/25 group-hover:scale-105 transition-transform">
+        J
+      </div>
+      <div class="flex flex-col">
+        <span class="font-display font-bold text-xl tracking-tight text-white group-hover:text-accent-pink transition-colors">
+          JobNex<span class="text-accent-pink">.ai</span>
+        </span>
+        <span class="text-[9px] uppercase tracking-widest text-brand-300 font-semibold -mt-1">
+          Career Ecosystem
+        </span>
+      </div>
+    </a>
+
+    <a href="../index.html" class="text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors">
+      <span>Back to Home</span>
+      <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+    </a>
+  </header>
+
+  <!-- Main Login / Sign-up Container -->
+  <main class="relative z-10 flex-1 flex items-center justify-center px-4 py-8">
+    <div class="w-full max-w-md space-y-6">
+      <!-- Demo 1-Click Login Quick Switcher -->
+      <div class="glass-dark rounded-xl p-3 border border-white/10 flex items-center justify-between gap-2 shadow-xl">
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0 pl-1">
+          Demo:
+        </span>
+        <div class="flex items-center gap-1.5 overflow-x-auto">
+          <button
+            id="btn-demo-sandeep"
+            type="button"
+            class="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-white/10 hover:bg-brand-500/30 text-slate-200 border border-white/10 transition-all cursor-pointer whitespace-nowrap"
+          >
+            Sandeep (Seeker)
+          </button>
+          <button
+            id="btn-demo-sarah"
+            type="button"
+            class="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-white/10 hover:bg-brand-500/30 text-slate-200 border border-white/10 transition-all cursor-pointer whitespace-nowrap"
+          >
+            Sarah (Recruiter)
+          </button>
+          <button
+            id="btn-demo-shake"
+            type="button"
+            class="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition-all cursor-pointer whitespace-nowrap"
+          >
+            Test Shake
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Glass Card -->
+      <div id="auth-card" class="glass-dark rounded-2xl border border-white/15 p-6 sm:p-8 shadow-2xl backdrop-blur-xl space-y-6">
+        <!-- Tab Selector: Sign In vs Create Account -->
+        <div class="grid grid-cols-2 p-1 bg-white/5 rounded-xl border border-white/10">
+          <button
+            id="btn-tab-signin"
+            type="button"
+            class="py-2 rounded-lg text-xs font-bold transition-all bg-brand-600 text-white shadow-md cursor-pointer"
+          >
+            Sign In
+          </button>
+          <button
+            id="btn-tab-signup"
+            type="button"
+            class="py-2 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white cursor-pointer"
+          >
+            Create Account
+          </button>
+        </div>
+
+        <!-- Role Selector Switch -->
+        <div class="space-y-1.5">
+          <label class="text-[11px] font-bold text-slate-300 uppercase tracking-wider block">
+            Select Your Role
+          </label>
+          <div class="grid grid-cols-2 gap-2">
+            <button
+              id="role-btn-seeker"
+              type="button"
+              class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border text-xs font-bold transition-all bg-brand-500/20 border-brand-400 text-white cursor-pointer"
+            >
+              <i data-lucide="briefcase" class="w-4 h-4 text-accent-pink"></i>
+              <span>Job Seeker</span>
+            </button>
+            <button
+              id="role-btn-recruiter"
+              type="button"
+              class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border text-xs font-bold transition-all bg-white/5 border-white/10 text-slate-400 hover:text-white cursor-pointer"
+            >
+              <i data-lucide="users" class="w-4 h-4"></i>
+              <span>Recruiter</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Error Banner (Hidden by default) -->
+        <div id="auth-error-banner" class="hidden p-3 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-200 text-xs flex items-center gap-2.5">
+          <i data-lucide="alert-circle" class="w-4 h-4 text-rose-400 shrink-0"></i>
+          <span id="auth-error-text">Please enter valid credentials.</span>
+        </div>
+
+        <!-- Auth Form -->
+        <form id="auth-form" class="space-y-4">
+          <!-- Full Name (Sign Up only) -->
+          <div id="field-fullname" class="hidden space-y-1">
+            <label for="input-fullname" class="text-xs font-semibold text-slate-300 block">Full Name</label>
+            <input
+              id="input-fullname"
+              type="text"
+              placeholder="e.g. Sandeep Kumar"
+              value="Sandeep Kumar"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/15 focus:border-brand-400 focus:bg-white/10 text-white text-xs outline-none transition-all"
+            />
+          </div>
+
+          <!-- Phone Number (Sign Up only) -->
+          <div id="field-phone" class="hidden space-y-1">
+            <label for="input-phone" class="text-xs font-semibold text-slate-300 block">Phone Number</label>
+            <input
+              id="input-phone"
+              type="text"
+              placeholder="+91 98765 43210"
+              value="+91 98765 43210"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/15 focus:border-brand-400 focus:bg-white/10 text-white text-xs outline-none transition-all"
+            />
+          </div>
+
+          <!-- Email Address -->
+          <div class="space-y-1">
+            <label for="input-email" class="text-xs font-semibold text-slate-300 block">Work or Personal Email</label>
+            <input
+              id="input-email"
+              type="email"
+              required
+              placeholder="sandeep@jobnex.ai"
+              value="sandeep@jobnex.ai"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/15 focus:border-brand-400 focus:bg-white/10 text-white text-xs outline-none transition-all"
+            />
+          </div>
+
+          <!-- Password with Show/Hide Toggle -->
+          <div class="space-y-1">
+            <div class="flex items-center justify-between">
+              <label for="input-password" class="text-xs font-semibold text-slate-300 block">Password</label>
+              <a href="#" id="link-forgot-pass" class="text-[11px] text-brand-300 hover:text-white transition-colors">
+                Forgot password?
+              </a>
+            </div>
+            <div class="relative">
+              <input
+                id="input-password"
+                type="password"
+                required
+                value="password123"
+                placeholder="••••••••"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/15 focus:border-brand-400 focus:bg-white/10 text-white text-xs outline-none transition-all pr-10"
+              />
+              <button
+                type="button"
+                id="btn-toggle-pass"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white cursor-pointer"
+              >
+                <i data-lucide="eye" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Confirm Password (Sign Up only) -->
+          <div id="field-confirm-password" class="hidden space-y-1">
+            <label for="input-confirm-pass" class="text-xs font-semibold text-slate-300 block">Confirm Password</label>
+            <input
+              id="input-confirm-pass"
+              type="password"
+              placeholder="••••••••"
+              value="password123"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/15 focus:border-brand-400 focus:bg-white/10 text-white text-xs outline-none transition-all"
+            />
+          </div>
+
+          <!-- Remember me checkbox -->
+          <div class="flex items-center gap-2 pt-1">
+            <input
+              id="checkbox-remember"
+              type="checkbox"
+              checked
+              class="w-4 h-4 rounded bg-white/10 border-white/20 accent-brand-500 cursor-pointer"
+            />
+            <label for="checkbox-remember" class="text-xs text-slate-300 cursor-pointer">
+              Remember my session on this device
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            id="btn-submit-auth"
+            type="submit"
+            class="w-full bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white font-bold text-xs py-3 rounded-xl shadow-lg shadow-brand-600/30 transition-all flex items-center justify-center gap-2 active:scale-98 cursor-pointer mt-2"
+          >
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+            <span id="btn-submit-text">Sign In to JobNex</span>
+          </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="relative flex items-center justify-center">
+          <div class="border-t border-white/10 w-full"></div>
+          <span class="bg-slate-900 px-3 text-[10px] uppercase font-bold text-slate-400 absolute">Or continue with</span>
+        </div>
+
+        <!-- Google OAuth Button -->
+        <button
+          id="btn-google-auth"
+          type="button"
+          class="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-xs font-semibold text-white transition-all flex items-center justify-center gap-2.5 cursor-pointer"
+        >
+          <svg class="w-4 h-4" viewBox="0 0 24 24">
+            <path fill="#EA4335" d="M12 5c1.5 0 2.8.5 3.9 1.4l2.9-2.9C17 1.8 14.7 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/>
+            <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.6h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.9z"/>
+            <path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.8s.2-2.1.4-2.8L1.9 6.3C.7 8.7 0 10.3 0 12s.7 3.3 1.9 5.7l3.7-2.9z"/>
+            <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16C3.7 19.7 7.5 23 12 23z"/>
+          </svg>
+          <span>Continue with Google</span>
+        </button>
+      </div>
+
+      <!-- Footer Accessibility Toggles -->
+      <div class="flex items-center justify-between text-xs text-slate-400 px-2">
+        <button id="btn-toggle-sound" type="button" class="flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer">
+          <i data-lucide="volume-2" class="w-4 h-4"></i>
+          <span id="sound-toggle-label">Sound FX: On</span>
+        </button>
+        <span class="text-slate-600">•</span>
+        <button id="btn-toggle-motion" type="button" class="flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer">
+          <span id="motion-toggle-label">Motion: Normal</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="relative z-10 py-4 text-center text-xs text-slate-500">
+    © 2026 JobNex. All rights reserved. Plain Static Architecture.
+  </footer>
+
+  <script src="../data/mock-data.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/login.js"></script>
+</body>
+</html>
